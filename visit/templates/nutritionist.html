@@ -3,9 +3,9 @@
 
 {% for nutritionist in nutritionists %}
 <a href="calendar/{{ nutritionist.id }}">
-{{ nutritionist.title }}
+<li>{{ nutritionist.title }}
 {{ nutritionist.name }}
-{{ nutritionist.fullname }}
+{{ nutritionist.fullname }}</li>
 </a>
 {% endfor %}
 

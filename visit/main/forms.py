@@ -6,9 +6,8 @@ class MeetingForm(forms.ModelForm):
     class Meta:
         model = Meetings
 
-        fields = ['name', 'fullname', 'email', 'nutritionist']
+        fields = ['name', 'fullname', 'email']
         widgets = {
-
             'name': forms.TextInput(
                 attrs={'id': 'meeting-name', 'required': True, 'placeholder': 'Say something...'}
             ),
@@ -17,8 +16,5 @@ class MeetingForm(forms.ModelForm):
             ),
             'email': forms.EmailInput(
                 attrs={'id': 'meeting-email', 'required': True, 'placeholder': 'Say something...'}
-            ),
-            'nutritionist': forms.TextInput(
-                attrs={'id': 'meeting-nutritionist', 'required': True, 'placeholder': 'Say something...'}
             )
         }

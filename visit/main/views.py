@@ -49,7 +49,7 @@ def send_form(request):
     url = request.get_full_path()
     print 'xxxxxxxxxxxxxx',url
     day = url[-7:-6]
-    id = url[-1:]
+    n_id = url[-1:]
     hourBegin = url[-6:-1].encode('ascii','ignore')
     hourEnd = hourBegin
     hourEnd = list(hourEnd)
@@ -66,8 +66,9 @@ def send_form(request):
             hourEnd[3] = '0'
         else:
             hourEnd[1] = str(int(hourEnd[1]) + 1)
+            hourEnd[3] = '0'
     hourEnd = "".join(hourEnd)
-    print 'xxxxx', hourBegin, type(hourEnd)
+    nutritionist = Nutritionist.objects.get(pk=n_id)
     if request.method == "POST":
         meeting_hourBegin = hourBegin
         meetting_hourEnd = hourEnd
@@ -75,7 +76,7 @@ def send_form(request):
         meeting_name = request.POST.get('the_name')
         meeting_fullname = request.POST.get('the_fullname')
         meeting_email = request.POST.get('the_email')
-        meeting_nutritionist = request.POST.get('the_nutritionist')
+        meeting_nutritionist = nutritionist
 
         response_data = {}
         nutritionist = Nutritionist.objects.all().first()
@@ -97,7 +98,24 @@ def send_form(request):
         response_data['fullname'] = meeting.fullname
         response_data['email'] = meeting.email
         response_data['nutritionist'] = meeting.nutritionist.id
-        email = EmailMessage('title', 'body', to=["john_qr@o2.pl"])
+
+        days = {
+            '1': 'poniedzialek',
+            '2': 'wtorek',
+            '3': 'sroda',
+            '4': 'czwartek',
+            '5': 'piatek'
+        }
+        print response_data
+        email = EmailMessage("Potwierzenie rejestracji",
+                             'Witaj {}! Zarejestrowales sie do dietetyka {} {} {} w najblizszy {} o godznie {}'.
+                             format(meeting_name.encode('ascii','ignore'),
+                                    meeting_nutritionist.title.encode('ascii','ignore'),
+                                    meeting_nutritionist.name.encode('ascii','ignore'),
+                                    meeting_nutritionist.fullname.encode('ascii','ignore'),
+                                    days[meeting_day].encode('ascii','ignore'),
+                                    meeting_hourBegin).encode('ascii','ignore'),
+                             to=[meeting_email])
         email.send()
 
         return JsonResponse(response_data)
