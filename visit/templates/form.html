@@ -2,7 +2,7 @@
 {% block form %}
 
 <h1>Omów się na wizytę :)</h1>
-    <<form action="." method="POST" id="meeting_form">{% csrf_token %}
+    <form action="." method="POST" id="meeting_form">{% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="save btn btn-default">Save</button>
     </form>

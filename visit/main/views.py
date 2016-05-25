@@ -20,6 +20,9 @@ def calendar(request, id=None):
     nutritionist = Nutritionist.objects.get(id=id)
     title = 'kalendarz'
     meetings = Meetings.objects.all()
+    url = request.get_full_path()
+    n_id = url[-1:]
+
     dataToCal = {
         '1': [],
         '2': [],
@@ -31,7 +34,9 @@ def calendar(request, id=None):
     for day in range(1,6):
         day = str(day)
         for meeting in meetings:
-            if meeting.day == day:
+            if meeting.day == day and str(meeting.nutritionist.id) == n_id:
+
+
                 hourBegin = meeting.hourBegin
                 hourEnd = meeting.hourEnd
                 # hourBegin.encode('ascii', 'ignore')
