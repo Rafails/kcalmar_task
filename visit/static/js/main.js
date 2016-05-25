@@ -18,7 +18,8 @@ $('#meeting_form').on('submit', function(event){
 function send_form() {
     console.log("create post is working!") // sanity check
     $.ajax({
-        url : "/send_form/", // the endpoint
+        // url : "/send_form/?time=&?n_id=08:001", // the endpoint
+        url : window.location.href,
         type : "POST", // http method
         data : {
              the_hourBegin : $('#meeting-hourBegin').val(),
