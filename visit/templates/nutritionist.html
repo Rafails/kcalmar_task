@@ -1,0 +1,12 @@
+{% extends "mainpage.html" %}
+{% block nutritionist %}
+
+{% for nutritionist in nutritionists %}
+<a href="calendar/{{ nutritionist.id }}">
+{{ nutritionist.title }}
+{{ nutritionist.name }}
+{{ nutritionist.fullname }}
+</a>
+{% endfor %}
+
+{% endblock %}
