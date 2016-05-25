@@ -6,11 +6,9 @@ class MeetingForm(forms.ModelForm):
     class Meta:
         model = Meetings
 
-        fields = ['day', 'name', 'fullname', 'email', 'nutritionist']
+        fields = ['name', 'fullname', 'email', 'nutritionist']
         widgets = {
-            'day': forms.TextInput(
-                attrs={'id': 'meeting-day', 'required': True, 'placeholder': 'Say something...'}
-            ),
+
             'name': forms.TextInput(
                 attrs={'id': 'meeting-name', 'required': True, 'placeholder': 'Say something...'}
             ),

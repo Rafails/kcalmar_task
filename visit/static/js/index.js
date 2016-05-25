@@ -102,11 +102,14 @@
 // pplugin.deselect($(this));
     this.$el.on('click', '.time-slot', function () {
       var time = $(this).data('time');
-      if (!plugin.isSelecting()) {  // if we are not in selecting mode
-         // plugin.select($(this));
-        var n_id = window.location.href.slice(-1);
-        console.log(n_id);
-        window.location.href = "/send_form?time=&?n_id="+time+n_id;
+      var day = $(this).data('day');
+      if (!isSlotSelected($(this))) {
+        if (!plugin.isSelecting()) {  // if we are not in selecting mode
+          // plugin.select($(this));
+          var n_id = window.location.href.slice(-1);
+          console.log(n_id);
+          window.location.href = "/send_form?day&?time=&?n_id=" + day + time + n_id;
+        }
       }
     });
 

@@ -48,30 +48,30 @@ def send_form(request):
     title = 'Formularz'
     url = request.get_full_path()
     print 'xxxxxxxxxxxxxx',url
-    if url[-6:-1] != "_form":
-        id = url[-1:]
-        hourBegin = url[-6:-1].encode('ascii','ignore')
-        hourEnd = hourBegin
-        hourEnd = list(hourEnd)
-        if hourEnd[3] == '0':
-            hourEnd[3] = '3'
-        elif hourEnd[3] == '3':
-            if hourEnd[1] == '9' and hourEnd[0] == "0":
-                hourEnd[0] = "1"
-                hourEnd[1] = "0"
-                hourEnd[3] = '0'
-            elif hourEnd[1] == '9' and hourEnd[0] == "1":
-                hourEnd[0] = "2"
-                hourEnd[1] = "0"
-                hourEnd[3] = '0'
-            else:
-                hourEnd[1] = str(int(hourEnd[1]) + 1)
-        hourEnd = "".join(hourEnd)
-        print 'xxxxx', hourBegin, type(hourEnd)
+    day = url[-7:-6]
+    id = url[-1:]
+    hourBegin = url[-6:-1].encode('ascii','ignore')
+    hourEnd = hourBegin
+    hourEnd = list(hourEnd)
+    if hourEnd[3] == '0':
+        hourEnd[3] = '3'
+    elif hourEnd[3] == '3':
+        if hourEnd[1] == '9' and hourEnd[0] == "0":
+            hourEnd[0] = "1"
+            hourEnd[1] = "0"
+            hourEnd[3] = '0'
+        elif hourEnd[1] == '9' and hourEnd[0] == "1":
+            hourEnd[0] = "2"
+            hourEnd[1] = "0"
+            hourEnd[3] = '0'
+        else:
+            hourEnd[1] = str(int(hourEnd[1]) + 1)
+    hourEnd = "".join(hourEnd)
+    print 'xxxxx', hourBegin, type(hourEnd)
     if request.method == "POST":
         meeting_hourBegin = hourBegin
         meetting_hourEnd = hourEnd
-        meeting_day = request.POST.get('the_day')
+        meeting_day = day
         meeting_name = request.POST.get('the_name')
         meeting_fullname = request.POST.get('the_fullname')
         meeting_email = request.POST.get('the_email')
