@@ -34,6 +34,7 @@ def calendar(request, id=None):
     for day in range(1,6):
         day = str(day)
         for meeting in meetings:
+            print "testdataaaaa", meeting.nutritionist.id, n_id
             if meeting.day == day and str(meeting.nutritionist.id) == n_id:
 
 
@@ -84,7 +85,6 @@ def send_form(request):
         meeting_nutritionist = nutritionist
 
         response_data = {}
-        nutritionist = Nutritionist.objects.all().first()
 
         meeting = Meetings(
             hourBegin=meeting_hourBegin,
@@ -93,7 +93,7 @@ def send_form(request):
             name=meeting_name ,
             fullname=meeting_fullname ,
             email=meeting_email ,
-            nutritionist=nutritionist
+            nutritionist=meeting_nutritionist
         )
         meeting.save()
         response_data['hourBegin'] = meeting.hourBegin
