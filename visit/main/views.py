@@ -108,7 +108,7 @@ def send_form(request):
             '5': 'piatek'
         }
         email = EmailMessage("Potwierzenie rejestracji",
-                             'Witaj {}! Zarejestrowales sie do dietetyka {} {} {} w najblizszy {} o godznie {}'.
+                             'Witaj {}! Zarejestrowales sie do {} {} {} w najblizszy {} o godznie {}'.
                              format(meeting_name.encode('ascii','ignore'),
                                     meeting_nutritionist.title.encode('ascii','ignore'),
                                     meeting_nutritionist.name.encode('ascii','ignore'),

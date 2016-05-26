@@ -74,8 +74,8 @@ WSGI_APPLICATION = 'visit.wsgi.application'
 # Email conf
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'rafalsliwinski3991@gmail.com'
-EMAIL_HOST_PASSWORD = 'szpital123'
+EMAIL_HOST_USER = 'test@gmail.com'
+EMAIL_HOST_PASSWORD = 'test123'
 EMAIL_PORT = 587
 
 # Database

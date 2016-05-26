@@ -4,17 +4,6 @@ $('#meeting_form').on('submit', function(event){
     console.log("form submitted!")  // sanity check
     send_form();
 });
-// function send_form() {
-//     console.log("create post is working!") // sanity check
-//     console.log($('#meeting-hourBegin').val())
-//     console.log($('#meeting-hourEnd').val())
-//     console.log($('#meeting-day').val())
-//     console.log($('#meeting-name').val())
-//     console.log($('#meeting-fullname').val())
-//     console.log($('#meeting-email').val())
-//     console.log($('#meeting-nutritionist').val())
-//     // 'hourBegin', 'hourEnd', 'day', 'name', 'fullname', 'email', 'nutritionist'
-// };
 function send_form() {
     console.log("create post is working!") // sanity check
     $.ajax({
@@ -22,25 +11,17 @@ function send_form() {
         url : window.location.href,
         type : "POST", // http method
         data : {
-             the_hourBegin : $('#meeting-hourBegin').val(),
-             the_hourEnd : $('#meeting-hourEnd').val(),
-             the_day : $('#meeting-day').val(),
              the_name : $('#meeting-name').val(),
              the_fullname : $('#meeting-fullname').val(),
-             the_email : $('#meeting-email').val(),
-             the_nutritionist : $('#meeting-nutritionist').val()
+             the_email : $('#meeting-email').val()
         }, // data sent with the post request
 
         // handle a successful response
         success : function(json) {
             // $('#post-text').val(''); // remove the value from the input
-            $('#meeting-hourBegin').val('');
-            $('#meeting-hourEnd').val('');
-            $('#meeting-day').val('');
             $('#meeting-name').val('');
             $('#meeting-fullname').val('');
             $('#meeting-email').val('');
-            $('#meeting-nutritionist').val('');
             console.log(json); // log the returned json to the console
             console.log("success"); // another sanity check
             window.location.assign('http://127.0.0.1:8000/thanks/')
