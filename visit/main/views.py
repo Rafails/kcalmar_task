@@ -7,45 +7,60 @@ from .forms import MeetingForm
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import EmailMessage
 
-
+from django.views.generic import TemplateView, View
+from django.shortcuts import get_list_or_404
 # Create your views here.
-def home(request):
-    title = 'dietetycy'
-    nutritionists = Nutritionist.objects.all()
-    data_json = serializers.serialize("json", nutritionists)
-    return render(request, "nutritionist.html", {'title': title, 'nutritionists': nutritionists, "data_json": data_json})
 
-def calendar(request, id=None):
-    title = 'kalendarz'
-    meetings = Meetings.objects.all()
-    url = request.get_full_path()
-    n_id = url[-1:]
-    dataToCal = {
-        '1': [],
-        '2': [],
-        '3': [],
-        '4': [],
-        '5': []
-    }
-    # filling fields in calendar
-    for day in range(1,6):
-        day = str(day)
-        for meeting in meetings:
+class Home(TemplateView):
+    def dispatch(self, request, *args, **kwargs):
+        # dispatch takes care of "reading" the parameters from the url
+        self.nutritionists = get_list_or_404(Nutritionist) # I would use some kind of default value to prevent exception, but its up to your logic
+        return TemplateView.dispatch(self, request, *args, **kwargs)
 
-            if meeting.day == day and str(meeting.nutritionist.id) == n_id:
+    def get_context_data(self, **kwargs):
+        # get_context_data creates the context
+        title = 'dietetycy'
+        context = TemplateView.get_context_data(self, **kwargs)
+        context.update({"title": title, "nutritionists": self.nutritionists})
 
+        return context
 
-                hourBegin = meeting.hourBegin
-                hourEnd = meeting.hourEnd
+class Calendar(TemplateView):
+    def dispatch(self, request, *args, **kwargs):
+        # dispatch takes care of "reading" the parameters from the url
+        meetings = get_list_or_404(Meetings)  # I would use some kind of default value to prevent exception, but its up to your logic
+        url = request.get_full_path()
+        n_id = url[-1:]
+        self.dataToCal = {
+            '1': [],
+            '2': [],
+            '3': [],
+            '4': [],
+            '5': []
+        }
+        # filling fields in calendar
+        for day in range(1, 6):
+            day = str(day)
+            for meeting in meetings:
+                if meeting.day == day and str(meeting.nutritionist.id) == n_id:
+                    hourBegin = meeting.hourBegin
+                    hourEnd = meeting.hourEnd
+                    self.dataToCal[day].append([hourBegin, hourEnd])
 
-                dataToCal[day].append([hourBegin, hourEnd])
-    dataToCal = json.dumps(dataToCal)
-    return render(request, "calendar.html", {'title': title, 'dataToCal': dataToCal})
+        self.dataToCal = json.dumps(self.dataToCal)
+        return TemplateView.dispatch(self, request, *args, **kwargs)
 
-@csrf_exempt
-def send_form(request):
+    def get_context_data(self, **kwargs):
+        # get_context_data creates the context
+        title = 'kalendarz'
+        context = TemplateView.get_context_data(self, **kwargs)
+        context.update({'title': title, 'dataToCal': self.dataToCal})
 
-    if request.method == "POST":
+        return context
+
+class Send_form(TemplateView):
+
+    def post(self, request, *args, **kwargs):
         url = request.get_full_path()
         day = url[-7:-6]
         n_id = url[-1:]
@@ -117,15 +132,23 @@ def send_form(request):
                                     meeting_hourBegin).encode('ascii','ignore'),
                              to=[meeting_email])
         email.send()
-
+        print('Siemanko')
         return JsonResponse(response_data)
 
-    elif request.method == "GET":
+    def get_context_data(self, **kwargs):
+        # get_context_data creates the context
         title = 'Formularz'
         form = MeetingForm()
-        return render(request, "form.html", {'title': title, 'form': form})
+        context = TemplateView.get_context_data(self, **kwargs)
+        context.update({'title': title, 'form': form})
 
-def thanks(request):
-    title = 'dziekujemy'
-    return render(request, "thanks.html", {'title': title})
+        return context
 
+class Thanks(TemplateView):
+    def get_context_data(self, **kwargs):
+        # get_context_data creates the context
+        title = 'dziekujemy'
+        context = TemplateView.get_context_data(self, **kwargs)
+        context.update({"title": title})
+
+        return context
