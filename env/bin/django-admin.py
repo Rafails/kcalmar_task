@@ -1,4 +1,4 @@
-#!/home/rafal/Programowanie/kalmar/env/bin/python
+#!/home/rafal/Programowanie/moje/kcalmar_task/env/bin/python
 from django.core import management
 
 if __name__ == "__main__":

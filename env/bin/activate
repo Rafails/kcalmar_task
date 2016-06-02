@@ -39,7 +39,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/rafal/Programowanie/kalmar/env"
+VIRTUAL_ENV="/home/rafal/Programowanie/moje/kcalmar_task/env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
